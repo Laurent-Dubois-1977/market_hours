@@ -1,0 +1,48 @@
+[{
+    "exchange": "NASDAQ",
+    "tz": "America/New_York",
+    "is247": "False",
+    "uuid": "6535de14-8724-4302-a4cf-11c28fe93471",
+    
+    "ohour": 9,
+    "omin": 30,
+    "chour": 16,
+    "cmin": 0,
+
+    "preOhour":4,
+    "preOmin":0 ,
+    "preChour":9,
+    "preCmin": 0,
+    
+    "aftOhour": 16,
+    "aftOmin": 0,
+    "aftChour":20 ,
+    "aftCmin": 0,
+    "createDate": 1665614002
+
+
+},
+{
+    "exchange": "NYSE",
+    "tz": "America/New_York",
+    "is247": "False",
+    "uuid": "1275b188-d32f-4462-a267-1206fade35ff",
+    
+    "ohour": 9,
+    "omin": 30,
+    "chour": 16,
+    "cmin": 0,
+
+    "preOhour":4,
+    "preOmin":0 ,
+    "preChour":9,
+    "preCmin": 0,
+    
+    "aftOhour": 16,
+    "aftOmin": 0,
+    "aftChour":20 ,
+    "aftCmin": 0,
+    "createDate": 1665614002
+
+
+}]

@@ -1,0 +1,39 @@
+{
+  "name": "market_hours",
+  "version": "0.0.1",
+  "description": "A rest api to get stock markets opening hours and activity status",
+  "main": "app.js",
+  "scripts": {
+    "start_prod": "NODE_ENV=PROD node app.js",
+    "start_dev": "NODE_ENV=DEV node app.js",
+    "scanapis": "run-func /helpers/apiscan.js scanEndpoints"
+  },
+  "jshintConfig": {
+    "esversion": 8,
+    "strict": "implied",
+    "devel": true,
+    "node": true,
+    "globals": {}
+  },
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.1",
+    "moment-timezone": "^0.5.37",
+    "mongoose": "^5.11.13",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.7",
+    "q": "^1.5.1",
+    "run-func": "^1.0.5",
+    "uuid": "^8.3.2",
+    "uuid-apikey": "^1.5.2",
+    "winston": "^3.3.3"
+  }
+}

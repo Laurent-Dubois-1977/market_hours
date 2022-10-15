@@ -1,0 +1,156 @@
+[{
+    "date": "2022-11-25",
+    "tz": "America/New_York",
+    "name": "",
+    "description": "",
+    "uuid": "c7b2bd1c-e6dd-4577-a9a9-68d2c74bde85",
+    "exchanges": [
+        "6535de14-8724-4302-a4cf-11c28fe93471",
+        "1275b188-d32f-4462-a267-1206fade35ff"
+    ],
+    "isAllDay": "false",
+    "hasPreMarket": "true",
+    "hasAfterMarket": "false",
+
+    "ohour": 9,
+    "chour": 30,
+    "omin": 13,
+    "cmin": 0,
+    "preOhour": 4,
+    "preOmin": 0,
+    "preChour": 9,
+    "preCmin": 0,
+    "aftOhour":null ,
+    "aftOmin": null,
+    "aftChour": null,
+    "aftCmin": null,
+    "createDate": 1665614002
+},
+{
+    "date": "2022-01-17",
+    "tz": "America/New_York",
+    "name": "",
+    "description": "",
+    "uuid": "7aa25ce0-358c-42e4-9e79-25c52815f04a",
+    "exchanges": [
+        "6535de14-8724-4302-a4cf-11c28fe93471",
+        "1275b188-d32f-4462-a267-1206fade35ff"
+    ],
+    "isAllDay": "true"
+},
+{
+    "date": "2022-02-21",
+    "tz": "America/New_York",
+    "name": "",
+    "description": "",
+    "uuid": "ba9d438c-e7f2-40ee-9ae4-22935e51753f",
+    "exchanges": [
+        "6535de14-8724-4302-a4cf-11c28fe93471",
+        "1275b188-d32f-4462-a267-1206fade35ff"
+    ],
+    "isAllDay": "true"
+},
+{
+    "date": "2022-04-15",
+    "tz": "America/New_York",
+    "name": "",
+    "description": "",
+    "uuid": "fa30f4e9-0154-451f-b068-ee78fa466332",
+    "exchanges": [
+        "6535de14-8724-4302-a4cf-11c28fe93471",
+        "1275b188-d32f-4462-a267-1206fade35ff"
+    ],
+    "isAllDay": "true"
+},
+{
+    "date": "2022-05-30",
+    "tz": "America/New_York",
+    "name": "",
+    "description": "",
+    "uuid": "39f4b0bc-3af5-4e77-a8b3-93251722fa25",
+    "exchanges": [
+        "6535de14-8724-4302-a4cf-11c28fe93471",
+        "1275b188-d32f-4462-a267-1206fade35ff"
+    ],
+    "isAllDay": "true"
+},
+{
+    "date": "2022-06-20",
+    "tz": "America/New_York",
+    "name": "",
+    "description": "",
+    "uuid": "5debe1f0-d8db-4e33-ad23-97143249dfd8",
+    "exchanges": [
+        "6535de14-8724-4302-a4cf-11c28fe93471",
+        "1275b188-d32f-4462-a267-1206fade35ff"
+    ],
+    "isAllDay": "true"
+},
+{
+    "date": "2022-07-04",
+    "tz": "America/New_York",
+    "name": "",
+    "description": "",
+    "uuid": "8d9c0282-79fa-4b33-af58-111aba0d2d6a",
+    "exchanges": [
+        "6535de14-8724-4302-a4cf-11c28fe93471",
+        "1275b188-d32f-4462-a267-1206fade35ff"
+    ],
+    "isAllDay": "true"
+},
+{
+    "date": "2022-09-05",
+    "tz": "America/New_York",
+    "name": "",
+    "description": "",
+    "uuid": "1afc7d48-4954-4098-94e8-58075822d5c9",
+    "exchanges": [
+        "6535de14-8724-4302-a4cf-11c28fe93471",
+        "1275b188-d32f-4462-a267-1206fade35ff"
+    ],
+    "isAllDay": "true"
+},
+{
+    "date": "2022-11-24",
+    "tz": "America/New_York",
+    "name": "",
+    "description": "",
+    "uuid": "db860567-4561-4089-a268-864edc42376a",
+    "exchanges": [
+        "6535de14-8724-4302-a4cf-11c28fe93471",
+        "1275b188-d32f-4462-a267-1206fade35ff"
+    ],
+    "isAllDay": "true"
+},
+{
+    "date": "2022-12-26",
+    "tz": "America/New_York",
+    "name": "",
+    "description": "",
+    "uuid": "b1cc64b9-daa7-44f1-b982-deeae5f7b6b2",
+    "exchanges": [
+        "6535de14-8724-4302-a4cf-11c28fe93471",
+        "1275b188-d32f-4462-a267-1206fade35ff"
+    ],
+    "isAllDay": "true"
+}]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
