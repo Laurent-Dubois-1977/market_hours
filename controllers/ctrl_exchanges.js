@@ -7,6 +7,58 @@ const moment = require('moment');
 const mtz = require('moment-timezone');
 
 module.exports = {
+
+    /**
+     * Rest API method: returns exchanges information corresponding to query parameters:
+     * Takes query string paramters as follow:
+     * - country: ISO 3166-2 code for the country of the exchanges
+     * - tz: time zone for the exhanges (using tz database format)
+     * - exchange: Name or partial name of the exchange (case insensitive)
+     * - uuid: database uuid of the exchange
+     * - is247: boolean. filters exchanges running 24/7 (true returns only 24/7 exchanges such as crypto exchanges, etc.)
+     * - limit: max number of record returned by the call 
+     * - skip: number of records to skip in the query (for pagination)  
+     * 
+     * Responses:     
+     * - status: response status 
+     * - message: system message for the responses
+     * - skipped: number of records skipped
+     * - recCount: number of records returned
+     * - nextSkip: skip value for the next record (for pagination)
+     * - totalRecCount: total number of records corresponding to the query without pagination
+     * - data: {
+     *          name: Name of the exchange
+     *          countryISO: ISO 3166-2 code for the country of the exchange,
+     *          tz: time zone for the exhanges (using tz database format)
+     *          is247: boolean. indicates whether the exchange runs 24/7 (true returns only 24/7 exchanges such as crypto exchanges, etc.)
+     *          uuid: database unique identifier for the exchange
+     *          hasPreMarket: boolean - define if the exchange has pre-market sessions
+     *          hasAftMarket: boolean - define if the exchange has after-market/ post-market sessions
+     *          ohour: Number- Standard session opening hour 
+     *          omin: Number- Standard session opening minute 
+     *          chour: Number- Standard session closing hour 
+     *          cmin: Number- Standard session closing min          
+     *          preOhour: Number- pre-market session opening hour 
+     *          preOmin: Number- pre-market session opening minute 
+     *          preChour: Number- pre-market session closing hour 
+     *          preCmin: Number- pre-market session closing min
+     *          aftOhour: Number- post-market session opening hour 
+     *          aftOmin: Number- post-market session opening minute 
+     *          aftChour: Number- post-market session closing hour 
+     *          aftCmin: Number- post-market session closing min
+     *          createDate: unix timestamp of the record creation
+     *          deleteDate: unix timestamp of the record deletion (logic deletion)
+     *          updateDate: unix timestamp of the record latest update
+     *          createBy: uuid of the person who created the record
+     *          deleteBy: uuid of the person who deleted the record (logic deletion)
+     *          updateBy: uuid of the person who lst update the record 
+     *          }
+     * 
+     * 
+     * @param {*} req 
+     * @param {*} res 
+     */
+
     getAll: async function (req, res) {
         try {
             var q = req.query;
@@ -35,6 +87,30 @@ module.exports = {
         }
     },
 
+    /**
+     * Rest API method: returns status of the exchanges corresponding to query parameters:
+     * Takes query string paramters as follow:
+     * - country: ISO 3166-2 code for the country of the exchanges
+     * - tz: time zone for the exhanges (using tz database format)
+     * - exchange: Name or partial name of the exchange (case insensitive)
+     * - uuid: database uuid of the exchange
+     * - is247: boolean. filters exchanges running 24/7 (true returns only 24/7 exchanges such as crypto exchanges, etc.)
+     * - limit: max number of record returned by the call 
+     * - skip: number of records to skip in the query (for pagination)  
+     * 
+     * Responses:     
+     * - status: response status 
+     * - message: system message for the responses
+     * - skipped: number of records skipped
+     * - recCount: number of records returned
+     * - nextSkip: skip value for the next record (for pagination)
+     * - totalRecCount: total number of records corresponding to the query without pagination
+     * - data: {exchange: Name of the exchange, status: session status for the exchange, nextOpen: time the next session opens (unix timestamp), nextPreOpen: time of the next pre-market session (unix timestamp }
+     * 
+     * 
+     * @param {*} req 
+     * @param {*} res 
+     */
     getStatus: async function (req, res) {
         try {
             var q = req.query;
@@ -76,7 +152,16 @@ module.exports = {
         }
     },
 
+
+    /**
+     * Checks whether the exchanges are open, closed or in pre or post market sessions.
+     * 
+     * @param {[String]} uuids : Array of exchange uuids.  
+     * @param {String} dateoverride: Override the date for the status check. Default is current time and date 
+     * @returns {exchange: String, status: String, nextOpen: Number, nextPreOpen: Number } Returns an array of objects with name of the exchange, session status, time the next session opens (unix timestamp), time of the next pre-market session (unix timestamp)
+     */
     checkStatus: function (uuids, dateoverride) {
+        
         var promise = new Promise(async function (resolve, reject) {
             try {
                 var data = [];
@@ -84,21 +169,19 @@ module.exports = {
                 if (exdata.length == 0) {
                     resolve('norec')
                 } else {
-                    for (var i = 0; i<exdata.length; i++){
+                    for (var i = 0; i < exdata.length; i++) {
                         var x = exdata[i];
                         if (x.is247) {
                             data.push({ exchange: x.name, status: 'open' })
                         } else {
-                            
+
                             var now = new Date();
                             if (dateoverride != null) {
                                 now = new Date(dateoverride);
                             }
-                            console.log(now);
-                            // check if the exchange is on holiday
+                            // check if the exchange is on holiday/special trading hours. If it is, replace data with holiday opening hours data
                             var isHoliday = await module.exports.checkHoliday(now, x.uuid);
-                            // console.log(isHoliday[0]);
-                            if (isHoliday.length>0){
+                            if (isHoliday.length > 0) {
                                 var exchangeName = x.name;
                                 x = isHoliday[0];
                                 x.holName = x.name;
@@ -165,32 +248,30 @@ module.exports = {
                 }
                 resolve(data);
             } catch (err) {
-                console.log(err);
                 reject(err);
             }
         });
         return promise;
     },
 
-    checkHoliday: function (now, uuid){
-        var promise = new Promise(async function(resolve, reject){
+    /**
+     * Checks whether the exchange is on holiday or has special trading hours for a given day
+     * @param {Date} now : the date to check whether it is a holiday for the exchange  
+     * @param {*} uuid : uuid of the exchange 
+     * @returns holiday data if any
+     */
+    checkHoliday: function (now, uuid) {
+        var promise = new Promise(async function (resolve, reject) {
             try {
                 var year = now.getFullYear();
-                var month = now.getMonth()+1;
+                var month = now.getMonth() + 1;
                 var day = now.getDate();
-
-                month = month < 10? `0${month}` : month;
-                day = day < 10? `0${day}` : day;
+                month = month < 10 ? `0${month}` : month;
+                day = day < 10 ? `0${day}` : day;
                 var fulldate = `${year}-${month}-${day}`
-                console.log(String(fulldate));
-
-                var hols = await hol.find({date: String(fulldate), exchanges: uuid}).exec();
-                console.log('something');
-                console.log(hols);
-
+                var hols = await hol.find({ date: String(fulldate), exchanges: uuid }).exec();
                 resolve(hols);
-            } catch (err){
-                console.log(err);
+            } catch (err) {
                 reject(err);
             }
         });
