@@ -122,7 +122,6 @@ module.exports = {
             if (q.tz !== undefined) { query.tz = q.tz };
             if (q.exchange !== undefined) { query.name = new RegExp(q.exchange, "i") };
             if (q.uuid !== undefined) { query.uuid = q.uuid };
-            if (q.is247 !== undefined) { query.is247 = Boolean(q.is247) };
 
 
             var totalrecs = await exc.find(query).countDocuments();
