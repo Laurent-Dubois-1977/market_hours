@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const holidaysSchema = new Schema({	
-    date: Date,
+    date: String,
     tz: String,
     name: String,
     description: String,

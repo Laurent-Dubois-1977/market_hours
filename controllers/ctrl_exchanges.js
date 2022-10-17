@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const exc = mongoose.model('exchanges');
+const hol = mongoose.model('holidays');
+
 const winston = require('../config/winston');
 const moment = require('moment');
 const mtz = require('moment-timezone');
@@ -82,14 +84,28 @@ module.exports = {
                 if (exdata.length == 0) {
                     resolve('norec')
                 } else {
-                    exdata.forEach((x) => {
+                    for (var i = 0; i<exdata.length; i++){
+                        var x = exdata[i];
                         if (x.is247) {
                             data.push({ exchange: x.name, status: 'open' })
                         } else {
+                            
                             var now = new Date();
                             if (dateoverride != null) {
                                 now = new Date(dateoverride);
                             }
+                            console.log(now);
+                            // check if the exchange is on holiday
+                            var isHoliday = await module.exports.checkHoliday(now, x.uuid);
+                            // console.log(isHoliday[0]);
+                            if (isHoliday.length>0){
+                                var exchangeName = x.name;
+                                x = isHoliday[0];
+                                x.holName = x.name;
+                                x.name = exchangeName;
+                            }
+                            console.log(x);
+
                             var nowTS = moment(now).unix();
 
                             var xcday = moment.tz(now, x.tz).day();
@@ -145,10 +161,36 @@ module.exports = {
                             }
                             data.push(xdata);
                         }
-                    });
+                    };
                 }
                 resolve(data);
             } catch (err) {
+                console.log(err);
+                reject(err);
+            }
+        });
+        return promise;
+    },
+
+    checkHoliday: function (now, uuid){
+        var promise = new Promise(async function(resolve, reject){
+            try {
+                var year = now.getFullYear();
+                var month = now.getMonth()+1;
+                var day = now.getDate();
+
+                month = month < 10? `0${month}` : month;
+                day = day < 10? `0${day}` : day;
+                var fulldate = `${year}-${month}-${day}`
+                console.log(String(fulldate));
+
+                var hols = await hol.find({date: String(fulldate), exchanges: uuid}).exec();
+                console.log('something');
+                console.log(hols);
+
+                resolve(hols);
+            } catch (err){
+                console.log(err);
                 reject(err);
             }
         });
